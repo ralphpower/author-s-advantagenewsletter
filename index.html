@@ -395,80 +395,6 @@
             color: var(--gold);
         }
 
-        /* Email form section */
-        .signup-section {
-            background: var(--gold);
-            padding: 60px 0;
-            margin: 60px 0;
-        }
-
-        .signup-box {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .signup-box h2 {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-
-        .signup-box p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 32px;
-        }
-
-        .form-inline {
-            display: flex;
-            gap: 12px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .form-inline input {
-            flex: 1;
-            padding: 16px 20px;
-            font-size: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--black);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-inline input:focus {
-            outline: none;
-            border-color: var(--white);
-            background: var(--white);
-        }
-
-        .form-inline button {
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 700;
-            background: var(--black);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-
-        .form-inline button:hover {
-            background: var(--gray-800);
-            transform: translateY(-2px);
-        }
-
-        .privacy-text {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 16px;
-        }
 
         /* Multiple CTAs throughout (Justin Welsh principle) */
         .cta-section {
@@ -507,41 +433,6 @@
             .trust-bar {
                 gap: 24px;
             }
-
-            .form-inline {
-                flex-direction: column;
-            }
-
-            .form-inline button {
-                width: 100%;
-            }
-        }
-
-        /* Success message */
-        .message {
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-size: 15px;
-            font-weight: 600;
-            display: none;
-            text-align: center;
-        }
-
-        .message.show {
-            display: block;
-        }
-
-        .message.success {
-            background: rgba(34, 197, 94, 0.1);
-            border: 2px solid #22C55E;
-            color: #16A34A;
-        }
-
-        .message.error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid #EF4444;
-            color: #DC2626;
         }
     </style>
 </head>
@@ -567,12 +458,7 @@
             </p>
 
             <div class="cta-container">
-               <a href="https://ralphpublishers-newsletter.beehiiv.com" 
-   class="cta-primary" 
-   target="_blank">
-  Join 250+ Authors
-</a>
-
+                <a href="#subscribe" class="cta-primary">Join 250+ Authors</a>
                 <p class="social-proof-inline">
                     <strong>Free.</strong> No spam. Unsubscribe anytime.
                 </p>
@@ -711,31 +597,6 @@
         </div>
     </section>
 
-    <section class="signup-section" id="subscribe">
-        <div class="container">
-            <div class="signup-box">
-                <h2>Ready to Finish Your Book?</h2>
-                <p>Join 250+ authors getting weekly strategies every Saturday.</p>
-                
-                <form id="subscribe-form" class="form-inline">
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="your@email.com" 
-                        required
-                    >
-                    <button type="submit" id="submit-btn">Subscribe Free</button>
-                </form>
-
-                <div id="message" class="message"></div>
-
-                <p class="privacy-text">
-                    No spam. Unsubscribe anytime. We respect your inbox.
-                </p>
-            </div>
-        </div>
-    </section>
 
     <section class="cta-section">
         <div class="container">
@@ -744,12 +605,7 @@
                 Every Saturday, I share one strategy that moves you closer to "published author." 
                 The best time to start was last year. The second best time is right now.
             </p>
-            <a href="https://ralphpublishers-newsletter.beehiiv.com" 
-   class="cta-primary" 
-   target="_blank">
-  Join 250+ Authors
-</a>
-
+            <a href="#subscribe" class="cta-primary">Join the Newsletter</a>
         </div>
     </section>
 
@@ -760,90 +616,6 @@
     </footer>
 
     <script>
-        // Replace with your actual Beehiiv publication ID
-        const BEEHIVE_PUBLICATION_ID = 'YOUR_PUBLICATION_ID_HERE';
-        
-        const form = document.getElementById('subscribe-form');
-        const emailInput = document.getElementById('email');
-        const submitBtn = document.getElementById('submit-btn');
-        const messageDiv = document.getElementById('message');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = emailInput.value.trim();
-
-            if (!email || !isValidEmail(email)) {
-                showMessage('Please enter a valid email address.', 'error');
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Subscribing...';
-            hideMessage();
-
-            try {
-                const response = await fetch(`https://api.beehiiv.com/v2/publications/${BEEHIVE_PUBLICATION_ID}/subscriptions`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        referring_site: window.location.href,
-                        utm_source: 'landing_page',
-                        utm_medium: 'organic'
-                    })
-                });
-
-                if (response.ok) {
-                    showMessage('🎉 Success! Check your email to confirm your subscription.', 'success');
-                    form.reset();
-                    
-                    if (window.gtag) {
-                        gtag('event', 'newsletter_signup', {
-                            'event_category': 'engagement',
-                            'event_label': 'authors_advantage'
-                        });
-                    }
-                } else {
-                    throw new Error('Subscription failed');
-                }
-            } catch (error) {
-                console.error('Subscription error:', error);
-                showMessage('Something went wrong. Please try again or email us at support@ralphpublishers.com', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Subscribe Free';
-            }
-        });
-
-        function isValidEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function showMessage(text, type) {
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type} show`;
-        }
-
-        function hideMessage() {
-            messageDiv.className = 'message';
-        }
-
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.target.classList.contains('success')) {
-                    setTimeout(() => {
-                        hideMessage();
-                    }, 5000);
-                }
-            });
-        });
-
-        observer.observe(messageDiv, { attributes: true, attributeFilter: ['class'] });
-
         // Smooth scroll for CTAs
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
